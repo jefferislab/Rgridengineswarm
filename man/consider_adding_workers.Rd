@@ -1,0 +1,22 @@
+\name{consider_adding_workers}
+\alias{consider_adding_workers}
+\title{Query Grid Engine to see if we can add more workers to the swarm}
+\usage{
+  consider_adding_workers(cpusToLeave, workerScript,
+    availabilityDivisor = 1)
+}
+\arguments{
+  \item{cpusToLeave}{The number of CPUs in the pool to
+  leave available for others}
+
+  \item{workerScript}{The filepath of the Rscript to call}
+
+  \item{availabilityDivisor}{The number with which to
+  divide cpusToLeave to determine how many CPUs it is
+  reasonable to assign to our task}
+}
+\description{
+  Query Grid Engine to see if we can add more workers to
+  the swarm
+}
+

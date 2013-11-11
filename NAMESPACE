@@ -1,0 +1,6 @@
+export(.jobcontrol_connection)
+export(consider_adding_workers)
+export(create_chunk)
+export(delete_job)
+export(get_chunk)
+export(set_chunk_done)

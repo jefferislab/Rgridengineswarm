@@ -1,0 +1,17 @@
+Package: Rgridengineswarm
+Title: Simple tools for creating and managing swarms of workers on Grid Engine
+Description: A small set of functions for controlling a swarm of Rscripts,
+    running on a Grid Engine pool, using a MySQL database to keep track of
+    chunks within jobs.
+Version: 0.1
+Author: Gregory Jefferis <jefferis@gmail.com>, Ashley Manton
+    <ajd.manton@googlemail.com>
+Maintainer: Ashley Manton <ajd.manton@googlemail.com>
+Depends:
+    R (>= 2.15.1),
+    RMySQL
+License: BSD
+LazyData: true
+Collate:
+    'Rgridengineswarm-package.r'
+    'jobcontrolFunctions.R'

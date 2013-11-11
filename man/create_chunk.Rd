@@ -1,0 +1,22 @@
+\name{create_chunk}
+\alias{create_chunk}
+\title{Create a chunk of work for a specified job}
+\usage{
+  create_chunk(stufftodo, job_id = 1, con = NULL, ...)
+}
+\arguments{
+  \item{stufftodo}{The work that should be done by a worker
+  working on this chunk}
+
+  \item{job_id}{The id of the job that this chunk should be
+  part of}
+
+  \item{con}{The database connection to use to create the
+  chunk}
+
+  \item{...}{Other arguments to pass to the connection}
+}
+\description{
+  Create a chunk of work for a specified job
+}
+

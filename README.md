@@ -2,7 +2,7 @@ R Grid Engine worker swarm control
 ==================================
 
 ## Introduction
-This simple package controls a swarm of workers, running on a Grid Engine pool, using a MySQL database to store information about jobs. Functions are provided to add workers to a job after the initial workers have been set working.
+This simple package controls a swarm of workers, running on a [Grid Engine](http://gridscheduler.sourceforge.net) pool, using a MySQL database to store information about jobs. Functions are provided to add workers to a job after the initial workers have been set working.
 
 Grid Engine has its own terminology with which we have tried to avoid collisions. We define a _job_ as a set of _chunks_ of work that are to be completed by a _swarm_ of _workers_. Each worker runs a copy of a script that requests chunks of work from the MySQL database and processes them. These workers may be distributed across multiple Grid Engine _tasks_, although workers added to the swarm at the same point will have the same Grid Engine task ID, each in a different _slot_. Workers may be placed on separate CPUs within the same _host_ or on different hosts as Grid Engine sees fit.
 
@@ -15,7 +15,7 @@ install_github("Rgridengineswarm", "ajdm")
 ```
 
 ## Configuration
-By default, the details of the database connection are read from the ``Rgridengineswarm`` group in the ``.mf.cnf`` (see [here](http://dev.mysql.com/doc/refman/5.1/en/option-files.html)) file. A different group can be passed to the ``.jobcontrol_connection`` function or, if you do not want to use the ``.my.cnf`` file, the function can be overloaded, e.g.:
+By default, the details of the database connection are read from the ``Rgridengineswarm`` group in the ``.my.cnf`` (see [here](http://dev.mysql.com/doc/refman/5.1/en/option-files.html)) file. A different group can be passed to the ``.jobcontrol_connection`` function or, if you do not want to use the ``.my.cnf`` file, the function can be overloaded, e.g.:
 ```r
 .jobcontrol_connection <- function(con=NULL, user='fred', password='supersecure', dbname='jobcontrol', host='127.0.0.1', ...){
   dbConnect(MySQL(), user=user, password=password, dbname=dbname, host=host, ...)

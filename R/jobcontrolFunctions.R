@@ -78,12 +78,15 @@ get_chunk <- function(worker_id, job_id=1,
 #' Set a chunk as done
 #'
 #' @param worker_id The id of the worker that has completed the chunk
-#' @param job_id The id of the job the chunk is part of
-#' @param con The database connection to use for the update
 #' @param chunk_id The id of the chunk
+#' @inheritParams get_chunk
 #' @return TRUE on success
 #' @export
-set_chunk_done <- function(worker_id=NULL, job_id=1, con=NULL, chunk_id=NULL) {
+set_chunk_done <- function(worker_id=NULL, job_id=1, con=NULL, chunk_id=NULL, ...) {
+  if(is.null(con)) {
+    con <- .jobcontrol_connection(...)
+    on.exit(dbDisconnect(con))
+  }
   worker_id=as.integer(worker_id)
   if(is.na(worker_id)) stop("worker_id must be an integer")
   job_id=as.integer(job_id)

@@ -141,7 +141,7 @@ consider_adding_workers <- function(cpusToLeave, workerScript, availabilityDivis
 
 	# Add more workers, if we can
 	if (cpusAvailable > cpusToLeave) {
-		add_workers(cpusAvailable, cpusToLeave, workerScript)
+		add_workers(cpusAvailable, cpusToLeave, userCPUs, workerScript)
 	} else {
 		message("We should not add more workers.")
 	}
@@ -153,8 +153,9 @@ consider_adding_workers <- function(cpusToLeave, workerScript, availabilityDivis
 #'
 #' @param cpusAvailable The number of CPUs available in the Grid Engine pool
 #' @param cpusToLeave The number of CPUs in the pool to leave available for others
+#' @param userCPUs The number of cpus
 #' @param workerScript The filepath of the Rscript to call
-add_workers <- function(cpusAvailable, cpusToLeave, workerScript) {
+add_workers <- function(cpusAvailable, cpusToLeave, userCPUs, workerScript) {
 	message("We can add more workers.")
 	message("  CPUs grabbable: ", cpusGrabbable <- cpusAvailable - cpusToLeave)
 	message("  Num workers to add: ", numWorkersIncSize <- floor(cpusGrabbable / 2))

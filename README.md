@@ -126,8 +126,7 @@ workerid <- as.numeric(Sys.getenv("SGE_TASK_ID"))
 
 i <- 0
 jccon=.jobcontrol_connection()
-while(nrow(chunk <- get_chunk(worker_id=workerid, job_id=jobid, con=jccon)) >= 0){
-  message("Working on chunk ", chunk$stufftodo)
+while(!all(is.na(chunk <- get_chunk(worker_id=workerid, job_id=jobid, con=jccon)))){
   message("Working on chunk ", chunk$stuff_to_do)
   i <- i + 1
   if(!set_chunk_done(worker_id=workerid, job_id=jobid, con=jccon, chunk_id=chunk$id)) message("Failed to set chunk ", chunk$id, " done.")
@@ -182,7 +181,7 @@ if(workerid == 1) {
 
 # Work on chunks
 chunksCompleted <- 0
-while(!is.na(chunk <- get_chunk(worker_id=workerid, worker_name=workername, job_id=jobid, con=jccon))) {
+while(!all(is.na(chunk <- get_chunk(worker_id=workerid, worker_name=workername, job_id=jobid, con=jccon)))) {
 	message("Working on chunk ", chunk$id, " (belongs to job ", jobid, "), doing ", chunk$stuff_to_do, "...")
 	
 	# Our chunks don't correspond to any actual work, so we sleep for some some time to simulate the act of doing work

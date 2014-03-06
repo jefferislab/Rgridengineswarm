@@ -6,7 +6,7 @@ library(RMySQL)
 #' @param ... Other arguments to pass to the connection
 #' @export
 .jobcontrol_connection <- function(con=NULL, group="Rgridengineswarm", ...) {
-	dbConnect(MySQL(), group, ...)
+	dbConnect(MySQL(), group=group, ...)
 }
 
 

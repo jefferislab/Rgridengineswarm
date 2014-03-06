@@ -10,5 +10,5 @@ Maintainer: Ashley Manton <ajd.manton@googlemail.com>
 Depends:
     R (>= 2.15.1),
     RMySQL
-License: BSD_3_clause
+License: BSD_3_clause + file LICENSE
 LazyData: true

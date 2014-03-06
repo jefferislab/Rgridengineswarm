@@ -107,9 +107,8 @@ As a simple example, this script creates a record of a job in the MySQL database
 #!/usr/bin/env Rscript
 library(Rgridengineswarm)
 
-# Set the job and worker ids
+# Set the job id
 jobid <- 201
-workerid <- as.numeric(Sys.getenv("SGE_TASK_ID"))
 
 # Clear any old jobs with this id and create a new job of 50 chunks
 delete_job(jobid)

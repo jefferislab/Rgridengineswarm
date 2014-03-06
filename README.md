@@ -2,7 +2,7 @@ R Grid Engine worker swarm control
 ==================================
 
 ## Introduction
-This simple package controls a swarm of workers, running on a Grid Engine pool, using a MySQL database to store information about jobs. Functions are provided to add workers to a job after the initial workers have been set working.
+This simple package controls a swarm of workers, running on a [Grid Engine](http://gridscheduler.sourceforge.net) pool, using a MySQL database to store information about jobs. Functions are provided to add workers to a job after the initial workers have been set working.
 
 Grid Engine has its own terminology with which we have tried to avoid collisions. We define a _job_ as a set of _chunks_ of work that are to be completed by a _swarm_ of _workers_. Each worker runs a copy of a script that requests chunks of work from the MySQL database and processes them. These workers may be distributed across multiple Grid Engine _tasks_, although workers added to the swarm at the same point will have the same Grid Engine task ID, each in a different _slot_. Workers may be placed on separate CPUs within the same _host_ or on different hosts as Grid Engine sees fit.
 
@@ -15,7 +15,19 @@ install_github("Rgridengineswarm", "ajdm")
 ```
 
 ## Configuration
-By default, the details of the database connection are read from the ``Rgridengineswarm`` group in the ``.mf.cnf`` (see [here](http://dev.mysql.com/doc/refman/5.1/en/option-files.html)) file. A different group can be passed to the ``.jobcontrol_connection`` function or, if you do not want to use the ``.my.cnf`` file, the function can be overloaded, e.g.:
+By default, the details of the database connection are read from the ``Rgridengineswarm`` group in the current users ``.my.cnf`` (usually located at ```$HOME\my.cnf```). Here is an example of what this might look like:
+
+```
+[Rgridengineswarm]
+database = jobcontrol
+user = fred
+password = supersecure
+host = 127.0.0.1
+```
+
+See the [mysql documentation](http://dev.mysql.com/doc/refman/5.1/en/option-files.html) for further details.
+
+A different group can be passed to the ``.jobcontrol_connection`` function or, if you do not want to use the ``.my.cnf`` file, the function can be overloaded, e.g.:
 ```r
 .jobcontrol_connection <- function(con=NULL, user='fred', password='supersecure', dbname='jobcontrol', host='127.0.0.1', ...){
   dbConnect(MySQL(), user=user, password=password, dbname=dbname, host=host, ...)
@@ -41,7 +53,7 @@ CREATE TABLE `chunks` (
   PRIMARY KEY (`id`),
   UNIQUE KEY `id_UNIQUE` (`id`),
   KEY `job_id_asc` (`job_id`)
-) ENGINE=MyISAM AUTO_INCREMENT=67310 DEFAULT CHARSET=latin1$$
+) ENGINE=MyISAM AUTO_INCREMENT=1 DEFAULT CHARSET=latin1$$
 ```
 
 #### Routines
@@ -95,9 +107,8 @@ As a simple example, this script creates a record of a job in the MySQL database
 #!/usr/bin/env Rscript
 library(Rgridengineswarm)
 
-# Set the job and worker ids
+# Set the job id
 jobid <- 201
-workerid <- as.numeric(Sys.getenv("SGE_TASK_ID"))
 
 # Clear any old jobs with this id and create a new job of 50 chunks
 delete_job(jobid)
@@ -122,7 +133,16 @@ while(nrow(chunk <- get_chunk(worker_id=workerid, job_id=jobid, con=jccon)) >= 0
 }
 message("Finished ", i, " chunks!")
 ```
-This swarm can be submitted to Grid Engine using ``qsub -t 1:<num_workers> -b yes -cwd example_prime_worker.R``, where ``<num_workers>`` should be set to the number of workers you wish to work on the job. Once running, more workers can be added to the swarm by running a new ``qsub`` command, but the swarm will not manage its size automatically. For a swarm you can set running and leave to manage itself, see the next example.
+This swarm can be submitted to Grid Engine using ``qsub -t 1:<num_workers> -b yes -cwd example_prime_worker.R``, where ``<num_workers>`` should be set to the number of workers you wish to work on the job. Since gridengine spews out a bunch of log files in the working directory it normally makes sense to make a special folder to hold them. I normally do something like this:
+
+```sh
+cd path/to/my/project
+mkdir sgelogs
+cd sgelogs
+qsub -t 1:<num_workers> -b yes -cwd path/to/example_prime_worker.R
+```
+
+Once running, more workers can be added to the swarm by running a new ``qsub`` command, but the swarm will not manage its size automatically. For a swarm you can set running and leave to manage itself, see the next example.
 
 
 ### A self-updating swarm of workers

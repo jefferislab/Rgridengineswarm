@@ -2,7 +2,7 @@
 \alias{delete_job}
 \title{Delete all the chunks associated with a specific job}
 \usage{
-  delete_job(job_id, con = NULL, ...)
+delete_job(job_id, con = NULL, ...)
 }
 \arguments{
   \item{job_id}{The id of the job from which to delete all
@@ -14,9 +14,9 @@
   \item{...}{Other arguments to pass to the connection}
 }
 \value{
-  TRUE on success
+TRUE on success
 }
 \description{
-  Delete all the chunks associated with a specific job
+Delete all the chunks associated with a specific job
 }
 

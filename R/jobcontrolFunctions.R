@@ -6,7 +6,7 @@ library(RMySQL)
 #' @param ... Other arguments to pass to the connection
 #' @export
 .jobcontrol_connection <- function(con=NULL, group="Rgridengineswarm", ...) {
-	dbConnect(MySQL(), group, ...)
+	dbConnect(MySQL(), group=group, ...)
 }
 
 
@@ -29,19 +29,27 @@ create_chunk <- function(stufftodo, job_id=1, con=NULL, ...) {
 #' Get a chunk of work to do from a specified job
 #'
 #' @param worker_id The id of the worker requesting a chunk
-#' @param worker_name The name of the worker requesting a chunk
+#' @param job_id The id of the job for which chunks are being requested
+#' @param worker_name The name of the worker requesting a chunk. Default: 
+#'   \code{<nodename>:<worker_id>}
 #' @param nchunks The number of chunks requested
-#' @param job_id The id of the job to request chunks of
 #' @param con The database connection to use for the chunk request
 #' @param nullchunk The object to return if no chunks are returned
 #' @return The database record corresponding to the chunk obtained
 #' @param ... Other arguments to pass to the connection
 #' @export
-get_chunk <- function(worker_id, worker_name, nchunks=1, job_id=1, con=NULL, nullchunk=NA_character_, ...) {
+get_chunk <- function(worker_id, job_id=1,
+                      worker_name=paste(Sys.info()['nodename'],worker_id,sep=":"),
+                      nchunks=1, con=NULL, nullchunk=NA_character_, ...) {
 	if(is.null(con)) {
 		con <- .jobcontrol_connection(...)
 		on.exit(dbDisconnect(con))
 	}
+	worker_id=as.integer(worker_id)
+	if(is.na(worker_id)) stop("worker_id must be an integer")
+	job_id=as.integer(job_id)
+	if(is.na(job_id)) stop("job_id must be an integer")
+	
 	if(nchunks > 1) {
 		l <- lapply(seq.int(nchunks), function(x)
 			get_chunk(worker_id,job_id=job_id,con=con,nullchunk=nullchunk))
@@ -71,7 +79,13 @@ get_chunk <- function(worker_id, worker_name, nchunks=1, job_id=1, con=NULL, nul
 #' @return TRUE on success
 #' @export
 set_chunk_done <- function(worker_id=NULL, job_id=1, con=NULL, chunk_id=NULL) {
-	cmd <- sprintf("SELECT set_chunk_done(%d, %d, %d)", worker_id, job_id, chunk_id);
+  worker_id=as.integer(worker_id)
+  if(is.na(worker_id)) stop("worker_id must be an integer")
+  job_id=as.integer(job_id)
+  if(is.na(job_id)) stop("job_id must be an integer")
+  chunk_id=as.integer(chunk_id)
+  if(is.na(chunk_id)) stop("chunk_id must be an integer")
+  cmd <- sprintf("SELECT set_chunk_done(%d, %d, %d)", worker_id, job_id, chunk_id);
 	res <- dbSendQuery(con, cmd)
 	updated_chunk_id <- fetch(res, n=-1)
 	if(!length(updated_chunk_id) || updated_chunk_id[1, 1] < 0) return(FALSE)
@@ -139,7 +153,7 @@ consider_adding_workers <- function(cpusToLeave, workerScript, availabilityDivis
 
 	# Add more workers, if we can
 	if (cpusAvailable > cpusToLeave) {
-		add_workers(cpusAvailable, cpusToLeave, workerScript)
+		add_workers(cpusAvailable, cpusToLeave, userCPUs, workerScript)
 	} else {
 		message("We should not add more workers.")
 	}
@@ -151,8 +165,9 @@ consider_adding_workers <- function(cpusToLeave, workerScript, availabilityDivis
 #'
 #' @param cpusAvailable The number of CPUs available in the Grid Engine pool
 #' @param cpusToLeave The number of CPUs in the pool to leave available for others
+#' @param userCPUs The number of cpus
 #' @param workerScript The filepath of the Rscript to call
-add_workers <- function(cpusAvailable, cpusToLeave, workerScript) {
+add_workers <- function(cpusAvailable, cpusToLeave, userCPUs, workerScript) {
 	message("We can add more workers.")
 	message("  CPUs grabbable: ", cpusGrabbable <- cpusAvailable - cpusToLeave)
 	message("  Num workers to add: ", numWorkersIncSize <- floor(cpusGrabbable / 2))

@@ -26,7 +26,10 @@ get_chunk(worker_id, job_id = 1, worker_name = paste(Sys.info()["nodename"],
   \item{...}{Other arguments to pass to the connection}
 }
 \value{
-The database record corresponding to the chunk obtained
+A data.frame with \code{nchunks} rows (some of which may
+contain \code{NA}s) or if no chunks at all were available a
+matrix with \code{nchunks} rows and 1 column, filled with
+\code{NA}s.
 }
 \description{
 Get a chunk of work to do from a specified job

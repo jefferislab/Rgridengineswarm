@@ -4,6 +4,6 @@
 \alias{Rgridengineswarm-package}
 \title{Rgridengineswarm}
 \description{
-  Rgridengineswarm
+Rgridengineswarm
 }
 

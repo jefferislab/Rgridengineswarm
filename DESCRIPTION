@@ -12,6 +12,3 @@ Depends:
     RMySQL
 License: BSD
 LazyData: true
-Collate:
-    'Rgridengineswarm-package.r'
-    'jobcontrolFunctions.R'

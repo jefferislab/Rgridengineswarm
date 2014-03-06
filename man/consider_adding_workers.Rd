@@ -2,8 +2,7 @@
 \alias{consider_adding_workers}
 \title{Query Grid Engine to see if we can add more workers to the swarm}
 \usage{
-  consider_adding_workers(cpusToLeave, workerScript,
-    availabilityDivisor = 1)
+consider_adding_workers(cpusToLeave, workerScript, availabilityDivisor = 1)
 }
 \arguments{
   \item{cpusToLeave}{The number of CPUs in the pool to
@@ -16,7 +15,7 @@
   reasonable to assign to our task}
 }
 \description{
-  Query Grid Engine to see if we can add more workers to
-  the swarm
+Query Grid Engine to see if we can add more workers to the
+swarm
 }
 

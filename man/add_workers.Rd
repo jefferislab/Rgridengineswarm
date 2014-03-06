@@ -2,7 +2,7 @@
 \alias{add_workers}
 \title{Use Grid Engine to add more workers}
 \usage{
-  add_workers(cpusAvailable, cpusToLeave, workerScript)
+add_workers(cpusAvailable, cpusToLeave, workerScript)
 }
 \arguments{
   \item{cpusAvailable}{The number of CPUs available in the
@@ -14,6 +14,6 @@
   \item{workerScript}{The filepath of the Rscript to call}
 }
 \description{
-  Use Grid Engine to add more workers
+Use Grid Engine to add more workers
 }
 

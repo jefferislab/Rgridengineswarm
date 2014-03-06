@@ -2,8 +2,8 @@
 \alias{set_chunk_done}
 \title{Set a chunk as done}
 \usage{
-  set_chunk_done(worker_id = NULL, job_id = 1, con = NULL,
-    chunk_id = NULL)
+set_chunk_done(worker_id = NULL, job_id = 1, con = NULL,
+  chunk_id = NULL)
 }
 \arguments{
   \item{worker_id}{The id of the worker that has completed
@@ -16,9 +16,9 @@
   \item{chunk_id}{The id of the chunk}
 }
 \value{
-  TRUE on success
+TRUE on success
 }
 \description{
-  Set a chunk as done
+Set a chunk as done
 }
 

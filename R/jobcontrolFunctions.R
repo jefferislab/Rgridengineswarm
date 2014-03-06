@@ -38,7 +38,7 @@ create_chunk <- function(stufftodo, job_id=1, con=NULL, ...) {
 #' @return The database record corresponding to the chunk obtained
 #' @param ... Other arguments to pass to the connection
 #' @export
-get_chunk <- function(worker_id, worker_name=paste(Sys.info()['nodename'],worked_id,sep=":"),
+get_chunk <- function(worker_id, worker_name=paste(Sys.info()['nodename'],worker_id,sep=":"),
   nchunks=1, job_id=1, con=NULL, nullchunk=NA_character_, ...) {
 	if(is.null(con)) {
 		con <- .jobcontrol_connection(...)

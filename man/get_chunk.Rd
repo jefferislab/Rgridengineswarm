@@ -2,7 +2,7 @@
 \alias{get_chunk}
 \title{Get a chunk of work to do from a specified job}
 \usage{
-get_chunk(worker_id, worker_name = paste(Sys.info()["nodename"], worked_id,
+get_chunk(worker_id, worker_name = paste(Sys.info()["nodename"], worker_id,
   sep = ":"), nchunks = 1, job_id = 1, con = NULL,
   nullchunk = NA_character_, ...)
 }

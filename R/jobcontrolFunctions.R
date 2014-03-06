@@ -45,10 +45,6 @@ get_chunk <- function(worker_id, job_id=1,
 		con <- .jobcontrol_connection(...)
 		on.exit(dbDisconnect(con))
 	}
-	worker_id=as.integer(worker_id)
-	if(is.na(worker_id)) stop("worker_id must be an integer")
-	job_id=as.integer(job_id)
-	if(is.na(job_id)) stop("job_id must be an integer")
 	
 	if(nchunks > 1) {
 		l <- lapply(seq.int(nchunks), function(x)
@@ -56,6 +52,11 @@ get_chunk <- function(worker_id, job_id=1,
 		
 		return(do.call(rbind,l))
 	}
+	worker_id=as.integer(worker_id)
+	if(is.na(worker_id)) stop("worker_id must be an integer")
+	job_id=as.integer(job_id)
+	if(is.na(job_id)) stop("job_id must be an integer")
+	
 	cmd <- sprintf("SELECT get_chunk(%d,%d,'%s')", worker_id, job_id, worker_name)
 	res <- dbSendQuery(con, cmd)
 	next_chunk_id <- fetch(res, n=-1)
@@ -106,6 +107,8 @@ delete_job <- function(job_id, con=NULL, ...) {
 		on.exit(dbDisconnect(con))
 	}
 	if(length(job_id) > 1) return(sapply(job_id, delete_job, con))
+	job_id=as.integer(job_id)
+	if(is.na(job_id)) stop("job_id must be an integer")
 	
 	cmd <- sprintf("DELETE FROM chunks where job_id=%d", job_id)
 

@@ -18,12 +18,15 @@ get_chunk(worker_id, job_id = 1, worker_name = paste(Sys.info()["nodename"],
   \item{nchunks}{The number of chunks requested}
 
   \item{con}{The database connection to use for the chunk
-  request}
+  request or \code{NULL} to indicate that the function
+  should make and close a connection just for this
+  request.}
 
   \item{nullchunk}{The object to return if no chunks are
   returned}
 
-  \item{...}{Other arguments to pass to the connection}
+  \item{...}{Other arguments for creating the connection
+  when \code{NULL}}
 }
 \value{
 A data.frame with \code{nchunks} rows (some of which may

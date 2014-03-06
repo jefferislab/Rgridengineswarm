@@ -33,12 +33,14 @@ create_chunk <- function(stufftodo, job_id=1, con=NULL, ...) {
 #' @param worker_name The name of the worker requesting a chunk. Default: 
 #'   \code{<nodename>:<worker_id>}
 #' @param nchunks The number of chunks requested
-#' @param con The database connection to use for the chunk request
+#' @param con The database connection to use for the chunk request or
+#'   \code{NULL} to indicate that the function should make and close a
+#'   connection just for this request.
 #' @param nullchunk The object to return if no chunks are returned
-#' @return A data.frame with \code{nchunks} rows (some of which may contain
-#'   \code{NA}s) or if no chunks at all were available a matrix with
+#' @return A data.frame with \code{nchunks} rows (some of which may contain 
+#'   \code{NA}s) or if no chunks at all were available a matrix with 
 #'   \code{nchunks} rows and 1 column, filled with \code{NA}s.
-#' @param ... Other arguments to pass to the connection
+#' @param ... Other arguments for creating the connection when \code{NULL}
 #' @export
 get_chunk <- function(worker_id, job_id=1,
                       worker_name=paste(Sys.info()['nodename'],worker_id,sep=":"),

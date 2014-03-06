@@ -128,6 +128,7 @@ i <- 0
 jccon=.jobcontrol_connection()
 while(nrow(chunk <- get_chunk(worker_id=workerid, job_id=jobid, con=jccon)) >= 0){
   message("Working on chunk ", chunk$stufftodo)
+  message("Working on chunk ", chunk$stuff_to_do)
   i <- i + 1
   if(!set_chunk_done(worker_id=workerid, job_id=jobid, con=jccon, chunk_id=chunk$id)) message("Failed to set chunk ", chunk$id, " done.")
 }

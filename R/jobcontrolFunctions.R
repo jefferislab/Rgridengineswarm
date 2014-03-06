@@ -29,7 +29,8 @@ create_chunk <- function(stufftodo, job_id=1, con=NULL, ...) {
 #' Get a chunk of work to do from a specified job
 #'
 #' @param worker_id The id of the worker requesting a chunk
-#' @param worker_name The name of the worker requesting a chunk
+#' @param worker_name The name of the worker requesting a chunk. Default: 
+#'   \code{<nodename>:<worker_id>}
 #' @param nchunks The number of chunks requested
 #' @param job_id The id of the job to request chunks of
 #' @param con The database connection to use for the chunk request
@@ -37,7 +38,8 @@ create_chunk <- function(stufftodo, job_id=1, con=NULL, ...) {
 #' @return The database record corresponding to the chunk obtained
 #' @param ... Other arguments to pass to the connection
 #' @export
-get_chunk <- function(worker_id, worker_name, nchunks=1, job_id=1, con=NULL, nullchunk=NA_character_, ...) {
+get_chunk <- function(worker_id, worker_name=paste(Sys.info()['nodename'],worked_id,sep=":"),
+  nchunks=1, job_id=1, con=NULL, nullchunk=NA_character_, ...) {
 	if(is.null(con)) {
 		con <- .jobcontrol_connection(...)
 		on.exit(dbDisconnect(con))

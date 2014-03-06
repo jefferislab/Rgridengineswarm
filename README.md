@@ -134,7 +134,16 @@ while(nrow(chunk <- get_chunk(worker_id=workerid, job_id=jobid, con=jccon)) >= 0
 }
 message("Finished ", i, " chunks!")
 ```
-This swarm can be submitted to Grid Engine using ``qsub -t 1:<num_workers> -b yes -cwd example_prime_worker.R``, where ``<num_workers>`` should be set to the number of workers you wish to work on the job. Once running, more workers can be added to the swarm by running a new ``qsub`` command, but the swarm will not manage its size automatically. For a swarm you can set running and leave to manage itself, see the next example.
+This swarm can be submitted to Grid Engine using ``qsub -t 1:<num_workers> -b yes -cwd example_prime_worker.R``, where ``<num_workers>`` should be set to the number of workers you wish to work on the job. Since gridengine spews out a bunch of log files in the working directory it normally makes sense to make a special folder to hold them. I normally do something like this:
+
+```sh
+cd path/to/my/project
+mkdir sgelogs
+cd sgelogs
+qsub -t 1:<num_workers> -b yes -cwd path/to/example_prime_worker.R
+```
+
+Once running, more workers can be added to the swarm by running a new ``qsub`` command, but the swarm will not manage its size automatically. For a swarm you can set running and leave to manage itself, see the next example.
 
 
 ### A self-updating swarm of workers

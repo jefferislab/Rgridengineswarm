@@ -15,7 +15,7 @@ install_github("Rgridengineswarm", "ajdm")
 ```
 
 ## Configuration
-By default, the details of the database connection are read from the ``Rgridengineswarm`` group in the current users ``.my.cnf`` (usually located at ```$HOME\my.cnf```). Here is an example of what this might look like:
+By default, the details of the database connection are read from the ``Rgridengineswarm`` group in the current users ``.my.cnf`` (usually located at ```$HOME/.my.cnf```). Here is an example of what this might look like:
 
 ```
 [Rgridengineswarm]

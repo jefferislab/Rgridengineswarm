@@ -11,7 +11,7 @@ Installation of the latest version from github can be achieved using Hadley Wick
 ```r
 install.packages("devtools")
 library(devtools)
-install_github("Rgridengineswarm", "ajdm")
+install_github("Rgridengineswarm", "jefferislab")
 ```
 
 ## Configuration

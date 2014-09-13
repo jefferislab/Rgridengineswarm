@@ -15,7 +15,7 @@ install_github("Rgridengineswarm", "jefferislab")
 ```
 
 ## Configuration
-By default, the details of the database connection are read from the ``Rgridengineswarm`` group in the current users ``.my.cnf`` (usually located at ```$HOME/.my.cnf```). Here is an example of what this might look like:
+By default, the details of the database connection are read from the ``Rgridengineswarm`` group in the current user's ``.my.cnf`` (usually located at ```$HOME/.my.cnf```). Here is an example of what this might look like:
 
 ```
 [Rgridengineswarm]
@@ -57,7 +57,7 @@ CREATE TABLE `chunks` (
 ```
 
 #### Routines
-Concurrent writes to the MySQL database are prevented with routines specified in the database definition. These should be defined to prevent workers from trying to access the database while another worker is editing it. In particular, they are:
+Concurrent writes to the MySQL database are prevented by routines specified in the database definition. These are defined to prevent workers from trying to access the database while another worker is editing it. They are specified as follows:
 
 ##### get_chunk
 ```

@@ -62,7 +62,7 @@ CREATE TABLE `chunks` (
   PRIMARY KEY (`id`),
   UNIQUE KEY `id_UNIQUE` (`id`),
   KEY `job_id_asc` (`job_id`)
-) ENGINE=MyISAM AUTO_INCREMENT=1 DEFAULT CHARSET=latin1$$
+) AUTO_INCREMENT=1 $$
 ```
 
 #### Routines

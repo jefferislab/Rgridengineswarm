@@ -5,6 +5,7 @@ library(RMySQL)
 #' @param group The group from default.file to use for the database connection
 #' @param ... Other arguments to pass to the connection
 #' @export
+#' @rdname jobcontrol_connection
 .jobcontrol_connection <- function(con=NULL, group="Rgridengineswarm", ...) {
 	dbConnect(MySQL(), group=group, ...)
 }

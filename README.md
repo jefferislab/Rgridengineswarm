@@ -27,13 +27,14 @@ host = 127.0.0.1
 
 See the [mysql documentation](http://dev.mysql.com/doc/refman/5.1/en/option-files.html) for further details.
 
-This default is read from the package option, which can be set to a different
-value like this.
+This default is read from a package option, `Rgridengineswarm.connpararams`,
+which can be set to a different value like this.
 
 ```r
 options(Rgridengineswarm.connpararams=list(group='myprojectjobcontrol'))
 ```
-You can also set the default connection parameters directly like this:
+Although we recommend storing your connection parameters in a `.my.cnf` file, 
+you can also set the default connection parameters directly like this:
 
 ```r
 options(Rgridengineswarm.connpararams=list(database = 'jobcontrol', 
@@ -41,7 +42,7 @@ options(Rgridengineswarm.connpararams=list(database = 'jobcontrol',
                                            password = 'supersecure', 
                                            host = '127.0.0.1'))
 ```
-thereby avoiding use of .my.cnf.
+thereby avoiding use of `.my.cnf`.
 
 ### Setting up the MySQL database
 #### Creating the table structure

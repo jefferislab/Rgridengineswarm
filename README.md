@@ -72,7 +72,7 @@ Concurrent writes to the MySQL database are prevented by routines specified in t
 ```
 DELIMITER $$
 
-CREATE DEFINER=`root`@`localhost` FUNCTION `get_chunk`(_worker_id INT, _job_id INT, _worker_name VARCHAR(255)) RETURNS int(11)
+CREATE FUNCTION `get_chunk`(_worker_id INT, _job_id INT, _worker_name VARCHAR(255)) RETURNS int(11)
 BEGIN
 DECLARE chunk_id INT DEFAULT -1;
 SET chunk_id=next_chunk(_job_id);
@@ -87,7 +87,7 @@ END$$
 ```
 DELIMITER $$
 
-CREATE DEFINER=`root`@`localhost` FUNCTION `next_chunk`(_job_id INT) RETURNS int(11)
+CREATE FUNCTION `next_chunk`(_job_id INT) RETURNS int(11)
 BEGIN
 DECLARE chunk_id INT DEFAULT -1;
 SELECT id FROM chunks where status=0 AND job_id=_job_id ORDER BY id ASC LIMIT 1 INTO chunk_id;
@@ -99,7 +99,7 @@ END$$
 ```
 DELIMITER $$
 
-CREATE DEFINER=`root`@`localhost` FUNCTION `set_chunk_done`(_worker_id INT, _job_id INT, _chunk_id INT) RETURNS int(11)
+CREATE FUNCTION `set_chunk_done`(_worker_id INT, _job_id INT, _chunk_id INT) RETURNS int(11)
 BEGIN
 DECLARE chunk_id INT DEFAULT -1;
 UPDATE chunks SET status=2 WHERE id=_chunk_id AND worker_id=_worker_id AND job_id=_job_id;

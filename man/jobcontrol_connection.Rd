@@ -4,14 +4,36 @@
 \alias{.jobcontrol_connection}
 \title{Create a connection to the job control database}
 \usage{
-.jobcontrol_connection(con = NULL, group = "Rgridengineswarm", ...)
+.jobcontrol_connection(...)
 }
 \arguments{
-\item{group}{The group from default.file to use for the database connection}
-
-\item{...}{Other arguments to pass to the connection}
+\item{...}{Named arguments to pass to the \code{dbConnect} function,
+combined with any set in \code{options(Rgridengineswarm.connpararams)} (see
+details).}
 }
 \description{
-Create a connection to the job control database
+This function is called behind the scenes by any function that needs to
+access the job contol database.You will probably only need it yourself if you
+want to do reporting on the database (see examples). However the details
+selection below explains how default connection parameters can be set,
+something that you will need to do at least once.
+}
+\details{
+By default, the details of the database connection are read from the
+  ``Rgridengineswarm`` group in the current user's \code{.my.cnf} (usually
+  located at \code{$HOME/.my.cnf}). Here is an example of what this might
+  look like:
+
+  \verb{ [Rgridengineswarm] database = jobcontrol user = fred password =
+  supersecure host = 127.0.0.1 }
+
+  You can change the name of the default connection group using the option
+  \code{Rgridengineswarm.connpararams} e.g.
+
+  \verb{options(Rgridengineswarm.connpararams=list(group='myspecialjobdb'))}
+}
+\examples{
+# get current default connection parameters
+getOption('Rgridengineswarm.connpararams')
 }
 

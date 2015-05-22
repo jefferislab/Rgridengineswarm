@@ -27,12 +27,21 @@ host = 127.0.0.1
 
 See the [mysql documentation](http://dev.mysql.com/doc/refman/5.1/en/option-files.html) for further details.
 
-A different group can be passed to the ``.jobcontrol_connection`` function or, if you do not want to use the ``.my.cnf`` file, the function can be overloaded, e.g.:
+This default is read from the package option, which can be set to a different
+value like this.
+
 ```r
-.jobcontrol_connection <- function(con=NULL, user='fred', password='supersecure', dbname='jobcontrol', host='127.0.0.1', ...){
-  dbConnect(MySQL(), user=user, password=password, dbname=dbname, host=host, ...)
-}
+options(Rgridengineswarm.connpararams=list(group='myprojectjobcontrol'))
 ```
+You can also set the default connection parameters directly like this:
+
+```r
+options(Rgridengineswarm.connpararams=list(database = 'jobcontrol', 
+                                           user = 'fred', 
+                                           password = 'supersecure', 
+                                           host = '127.0.0.1'))
+```
+thereby avoiding use of .my.cnf.
 
 ### Setting up the MySQL database
 #### Creating the table structure

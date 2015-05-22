@@ -80,7 +80,7 @@ IF chunk_id>=0 THEN
 	UPDATE chunks SET worker_id=_worker_id,status=1,chunk_run=CURRENT_TIMESTAMP,worker_name=_worker_name WHERE id=chunk_id;
 END IF;
 RETURN chunk_id;
-END
+END$$
 ```
 
 ##### next_chunk
@@ -92,7 +92,7 @@ BEGIN
 DECLARE chunk_id INT DEFAULT -1;
 SELECT id FROM chunks where status=0 AND job_id=_job_id ORDER BY id ASC LIMIT 1 INTO chunk_id;
 RETURN chunk_id;
-END
+END$$
 ```
 
 ##### set_chunk_done
@@ -105,7 +105,7 @@ DECLARE chunk_id INT DEFAULT -1;
 UPDATE chunks SET status=2 WHERE id=_chunk_id AND worker_id=_worker_id AND job_id=_job_id;
 SELECT id FROM chunks where status=2 AND id=_chunk_id AND job_id=_job_id AND worker_id=_worker_id ORDER BY id ASC LIMIT 1 INTO chunk_id;
 RETURN chunk_id;
-END
+END$$
 ```
 
 
